@@ -78,11 +78,13 @@ const predictWebcam = async () => {
             drawingUtils.drawConnectors(landmarks, HandLandmarker.HAND_CONNECTIONS, { color: "#00f2ff", lineWidth: 2 });
             drawingUtils.drawLandmarks(landmarks, { color: "#ffffff", lineWidth: 1, radius: 2 });
 
-            // 1. Position Tracking (using Index Finger Base or MCP for stability)
-            const mcp = landmarks[9]; // Middle finger MCP
+            // 1. Position Tracking - 손바닥 중심 (Wrist + MCPs의 평균)
+            const palmX = (landmarks[0].x + landmarks[5].x + landmarks[9].x + landmarks[13].x + landmarks[17].x) / 5;
+            const palmY = (landmarks[0].y + landmarks[5].y + landmarks[9].y + landmarks[13].y + landmarks[17].y) / 5;
+
             // Map 0-1 to window size (X is mirrored)
-            targetCursorPos.x = (1 - mcp.x) * window.innerWidth;
-            targetCursorPos.y = mcp.y * window.innerHeight;
+            targetCursorPos.x = (1 - palmX) * window.innerWidth;
+            targetCursorPos.y = palmY * window.innerHeight;
 
             // 2. Gesture Detection
             const thumbExtended = landmarks[4].y < landmarks[3].y;
