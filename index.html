@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hand Tracking Virtual Mouse</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>AI Hand Motion Controller</h1>
+            <p>손을 움직여 마우스를 제어하세요</p>
+        </header>
+
+        <main>
+            <div class="video-container">
+                <video id="webcam" autoplay playsinline></video>
+                <canvas id="output_canvas"></canvas>
+                <div class="status-overlay">
+                    <div id="gesture_status">대기 중...</div>
+                </div>
+            </div>
+
+            <div class="control-panel glass">
+                <h2>제스처 가이드</h2>
+                <div class="guide-item">
+                    <span class="icon">🖐️</span>
+                    <span class="label">보자기: 이동</span>
+                </div>
+                <div class="guide-item">
+                    <span class="icon">✊</span>
+                    <span class="label">주먹: 좌클릭</span>
+                </div>
+                <div class="guide-item">
+                    <span class="icon">☝️</span>
+                    <span class="label">검지: 휠클릭</span>
+                </div>
+                <div class="guide-item">
+                    <span class="icon">👍</span>
+                    <span class="label">엄지: 우클릭</span>
+                </div>
+                <hr>
+                <div class="test-area">
+                    <h3>클릭 테스트 존</h3>
+                    <div class="button-grid">
+                        <button class="test-btn left" onclick="alert('좌클릭 성공!')">좌클릭 테스트</button>
+                        <button class="test-btn middle" onauxclick="if(event.button === 1) alert('휠클릭 성공!')">휠클릭 테스트</button>
+                        <button class="test-btn right" oncontextmenu="event.preventDefault(); alert('우클릭 성공!')">우클릭 테스트</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Virtual Cursor -->
+        <div id="virtual_cursor">
+            <div class="cursor-inner"></div>
+            <div class="cursor-ring"></div>
+            <div class="cursor-label">MOVE</div>
+        </div>
+    </div>
+
+    <!-- MediaPipe Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision/vision_bundle.mjs" type="module"></script>
+    <script type="module" src="script.js"></script>
+</body>
+</html>

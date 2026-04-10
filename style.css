@@ -1,0 +1,227 @@
+:root {
+    --bg-color: #0c0c1e;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --accent-color: #00f2ff;
+    --primary-font: 'Roboto', sans-serif;
+    --header-font: 'Orbitron', sans-serif;
+    --left-click: #00ff88;
+    --middle-click: #ffbb00;
+    --right-click: #ff0077;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: #fff;
+    font-family: var(--primary-font);
+    overflow: hidden; /* Prevent scrolling to keep app feel */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#app {
+    width: 90vw;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+header {
+    text-align: center;
+    padding: 10px;
+}
+
+header h1 {
+    font-family: var(--header-font);
+    margin: 0;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, #fff, var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+header p {
+    opacity: 0.6;
+    font-size: 0.9rem;
+}
+
+main {
+    display: flex;
+    gap: 30px;
+    flex: 1;
+    min-height: 0;
+}
+
+/* Video Section */
+.video-container {
+    position: relative;
+    flex: 1.5;
+    background: #000;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0, 242, 255, 0.1);
+    border: 1px solid var(--glass-border);
+}
+
+#webcam {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: rotateY(180deg); /* Mirror effect */
+}
+
+#output_canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotateY(180deg);
+}
+
+.status-overlay {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-family: var(--header-font);
+    font-size: 0.8rem;
+    border: 1px solid var(--accent-color);
+    box-shadow: 0 0 15px var(--accent-color);
+}
+
+/* Control Panel */
+.glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 25px;
+}
+
+.control-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.control-panel h2, .control-panel h3 {
+    margin-top: 0;
+    font-family: var(--header-font);
+    font-size: 1.1rem;
+    color: var(--accent-color);
+}
+
+.guide-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.guide-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.guide-item .icon { font-size: 1.5rem; }
+.guide-item .label { font-size: 0.9rem; opacity: 0.8; }
+
+.test-area {
+    margin-top: auto;
+}
+
+.button-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.test-btn {
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #222;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.test-btn:active { transform: scale(0.95); }
+.test-btn.left:hover { background: var(--left-click); color: #000; }
+.test-btn.middle:hover { background: var(--middle-click); color: #000; }
+.test-btn.right:hover { background: var(--right-click); color: #000; }
+
+/* Virtual Cursor */
+#virtual_cursor {
+    position: fixed;
+    pointer-events: none; /* Crucial: cursor must not block clicks */
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    transition: transform 0.1s ease-out;
+}
+
+.cursor-inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    background: #fff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px #fff;
+}
+
+.cursor-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--accent-color);
+    border-radius: 50%;
+    box-sizing: border-box;
+    animation: pulse 2s infinite;
+}
+
+.cursor-label {
+    position: absolute;
+    top: 45px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--header-font);
+    font-size: 10px;
+    white-space: nowrap;
+    color: var(--accent-color);
+    text-shadow: 0 0 5px #000;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.2); opacity: 0.3; }
+    100% { transform: scale(1); opacity: 0.8; }
+}
+
+/* States */
+.cursor-left .cursor-ring { border-color: var(--left-click); }
+.cursor-left .cursor-label { color: var(--left-click); }
+
+.cursor-middle .cursor-ring { border-color: var(--middle-click); }
+.cursor-middle .cursor-label { color: var(--middle-click); }
+
+.cursor-right .cursor-ring { border-color: var(--right-click); }
+.cursor-right .cursor-label { color: var(--right-click); }
